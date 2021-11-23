@@ -5,7 +5,7 @@ import { Grid, Button, Card, Box, TextField } from '@mui/material';
 
 import NavBar from '../component/Navbar';
 
-const baseURL = 'http://localhost:5000';
+const baseURL = process.env.URL;
 
 function EditProfile() {
 

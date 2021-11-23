@@ -5,7 +5,7 @@ import { Grid, Button, Card, Box, TextField, FormControl, FormControlLabel, Radi
 
 import NavBar from '../component/Navbar';
 
-const baseURL = 'http://localhost:5000';
+const baseURL = process.env.URL;
 
 function EditNote() {
 

@@ -8,7 +8,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 import NavBar from '../component/Navbar';
 
-const baseURL = 'http://localhost:5000';
+const baseURL = process.env.URL;
 
 function MyNote() {
 

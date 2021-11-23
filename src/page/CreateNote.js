@@ -6,7 +6,7 @@ import { FormControlLabel, Radio, RadioGroup } from '@mui/material';
 
 import NavBar from '../component/Navbar';
 
-const baseURL = "https://my-note-backend.herokuapp.com/";
+const baseURL = "https://my-note-backend.herokuapp.com";
 
 function CreateNote() {
 

@@ -6,7 +6,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 
 import NavBar from '../component/Navbar';
 
-const baseURL = process.env.URL;
+const baseURL = "https://my-note-backend.herokuapp.com/";
 
 function FavNote() {
 

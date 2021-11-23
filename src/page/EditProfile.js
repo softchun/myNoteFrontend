@@ -5,7 +5,7 @@ import { Grid, Button, Card, Box, TextField } from '@mui/material';
 
 import NavBar from '../component/Navbar';
 
-const baseURL = process.env.URL;
+const baseURL = "https://my-note-backend.herokuapp.com/";
 
 function EditProfile() {
 

@@ -8,7 +8,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 import NavBar from '../component/Navbar';
 
-const baseURL = process.env.URL;
+const baseURL = "https://my-note-backend.herokuapp.com/";
 
 function MyNote() {
 

@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from 'react'
+import React, { Fragment } from 'react'
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
@@ -14,13 +14,9 @@ import FavNote from './page/FavNote';
 import EditProfile from './page/EditProfile';
 import CreateNote from './page/CreateNote';
 import EditNote from './page/EditNote';
-
+import ViewNote from './page/ViewNote';
 
 function App() {
-
-  useEffect(() => {
-    document.title = "MyNote"
-  }, []);
 
   return (
     <div className="App">
@@ -49,6 +45,9 @@ function App() {
             </Route>
             <Route exact path='/editnote/:id' element={<PrivateRoute />}>
               <Route exact path='/editnote/:id' element={<EditNote />} />
+            </Route>
+            <Route exact path='/viewnote/:id' element={<PrivateRoute />}>
+              <Route exact path='/viewnote/:id' element={<ViewNote />} />
             </Route>
           </Routes>
         </Fragment>

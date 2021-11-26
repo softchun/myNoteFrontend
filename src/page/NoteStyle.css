@@ -1,0 +1,37 @@
+
+.box-content{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 4; /* number of lines to show */
+            line-clamp: 2; 
+    -webkit-box-orient: vertical;
+    word-wrap: break-word;
+}
+
+.box-content-view{
+    word-wrap: break-word;
+}
+
+a{
+    cursor: pointer;
+    text-decoration: none;
+    color: aliceblue;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1; /* number of lines to show */
+            line-clamp: 2; 
+    -webkit-box-orient: vertical;
+    word-wrap: break-word;
+}
+
+a:hover{
+    cursor: pointer;
+    color: rgb(192, 192, 192);
+    text-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.box-card{
+    font: relative;
+}

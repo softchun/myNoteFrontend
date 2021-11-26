@@ -106,11 +106,11 @@ function EditNote() {
             <NavBar />
             <Box bgcolor='#212529' style={{ height: '120vh' }}>
                 <Grid container direction="column" alignItems="center" justify="center">
-                    <Card sx={{ width: 800, height: 740, backgroundColor: '#ffffff', marginTop: 10 }}>
+                    <Card sx={{ width: 800, height: 740, backgroundColor: '#EEEEEE', marginTop: 10 }}>
                         <Box
                             component="form"
                             sx={{
-                                '& .MuiTextField-root': { m: 1, width: '75ch' },
+                                '& .MuiTextField-root': { m: 1, width: '60ch' },
                             }}
                             noValidate
                             autoComplete="off"

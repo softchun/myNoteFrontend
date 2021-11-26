@@ -92,7 +92,7 @@ function EditProfile() {
             <NavBar />
             <Box bgcolor='#212529' style={{ height: '100vh' }}>
                 <Grid container direction="column" alignItems="center" justify="center">
-                    <Card sx={{ width: 600, height: 580, backgroundColor: '#ffffff', marginTop: 10 }}>
+                    <Card sx={{ width: 600, height: 580, backgroundColor: '#EEEEEE', marginTop: 10 }}>
                         <Box
                             component="form"
                             sx={{

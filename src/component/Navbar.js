@@ -1,5 +1,4 @@
 import axios from 'axios';
-import logo from '../logo.svg';
 import logo001 from './logo001.png';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -35,7 +34,7 @@ function NavBar() {
     }, []);
 
     return (
-        <Navbar bg="dark" variant="dark" expand="md">
+        <Navbar bg="dark" variant="dark" expand="md" style={{ position: "sticky", top: 0, zIndex: 1 }}>
             <Container>
                 <Navbar.Brand href="/home">
                     <img

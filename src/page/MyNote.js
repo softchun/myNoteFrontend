@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { Grid, Card, CardContent, CardActions, Box, IconButton, Button, Link } from '@mui/material';
+import { Grid, Card, CardContent, CardActions, Box, IconButton, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -17,7 +17,7 @@ function MyNote() {
     const navigate = useNavigate();
 
     const [notes, setNotes] = useState();
-    const [lenNotes, setLenNotes] = useState(0);
+    const [lenNotes, setLenNotes] = useState(1);
 
     const numPerLoad = 6;
     const [count, setCount] = useState(numPerLoad);
@@ -45,7 +45,7 @@ function MyNote() {
                 ).then(
                     setState({
                         items: response.data.slice(0, Math.min(numPerLoad, response.data.length)),
-                        hasMore: true
+                        hasMore: (response.data.length > numPerLoad)
                     })
                 )
             });
@@ -116,14 +116,22 @@ function MyNote() {
         navigate(`/editnote/${id}`);
     }
 
-    function handleView(id) {
-        navigate(`/viewnote/${id}`);
-    }
-
     function NewlineText(props) {
         const text = props.text;
         return text.split('\n').map((str, i) => <Box key={props.id.concat(`${i}`)}>{str}</Box>);
     }
+
+    const [open, setOpen] = useState(false);
+    const [dialogId, setDialogId] = useState('xxx');
+
+    function handleClickOpen(id) {
+        setOpen(true);
+        setDialogId(id)
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
 
     return (
         <div>
@@ -133,11 +141,11 @@ function MyNote() {
                     My Notes
                 </Box>
             </Grid>
-            {state.items ? <InfiniteScroll
+            {state.items && lenNotes ? <InfiniteScroll
                 dataLength={state.items.length}
                 next={fetchMoreData}
                 hasMore={state.hasMore}
-                loader={<Box>Loading...</Box>}
+                loader={<Box style={{ marginTop: 20 }}><h4>Loading...</h4></Box>}
                 endMessage={
                     <Box style={{ textAlign: "center", margin: 40 }}>
                         <h4>You have seen all notes.</h4>
@@ -151,45 +159,64 @@ function MyNote() {
                         let isFav = obj.fav;
 
                         return (
-                                <Grid padding={2} marginLeft={5} marginRight={5} key={obj._id.concat("mynote")}>
-                                    <Card sx={{ width: 310, backgroundColor: color, color: 'white' }}>
-                                        <CardContent>
-                                            <Box sx={{ fontSize: 24, fontWeight: 700 }}>
-                                                <a target="_blank" className="box-view" title='View Note' onClick={() => handleView(obj._id)}>{obj.title}</a>
+                            <Grid padding={2} marginLeft={5} marginRight={5} key={obj._id.concat("mynote")}>
+                                <Card sx={{ width: 310, backgroundColor: color, color: 'white' }}>
+                                    <CardContent>
+                                        <Box sx={{ fontSize: 24, fontWeight: 700 }}>
+                                            <a href={`/viewnote/${obj._id}`} className="box-view" title='View Note'>{obj.title}</a>
+                                        </Box>
+                                        <Box sx={{ mb: 1.5 }}>
+                                            writed by {obj.username}
+                                        </Box>
+                                        <Box>
+                                            <Box className="box-content" sx={{ fontSize: 18, fontWeight: 700 }} marginTop={3} marginBottom={3}>
+                                                <NewlineText text={obj.content} id={obj._id.concat("mynote_newline")} />
                                             </Box>
-                                            <Box sx={{ mb: 1.5 }}>
-                                                writed by {obj.username}
+                                        </Box>
+                                        <Box marginTop={2} marginBottom={-2}>
+                                            <Box sx={{ fontSize: 12 }} marginBottom={-3} gutterBottom>
+                                                created at: {(obj.createdAt).split('T')[0]} | updated at: {(obj.updatedAt).split('T')[0]}
                                             </Box>
-                                            <Box>
-                                                <Box className="box-content" sx={{ fontSize: 18, fontWeight: 700 }} marginTop={3} marginBottom={3}>
-                                                    <NewlineText text={obj.content} id={obj._id.concat("mynote_newline")}/>
-                                                </Box>
-                                            </Box>
-                                            <Box marginTop={2} marginBottom={-2}>
-                                                <Box sx={{ fontSize: 12 }} marginBottom={-3} gutterBottom>
-                                                    created at: {(obj.createdAt).split('T')[0]} | updated at: {(obj.updatedAt).split('T')[0]}
-                                                </Box>
-                                            </Box>
-                                        </CardContent>
-                                        <CardActions>
-                                            <IconButton aria-label="add to favorites" onClick={() => {
-                                                handleAddFav(obj._id);
-                                            }} style={{ color: isFav ? '#DB6F6F' : 'white' }}>
-                                                <FavoriteIcon />
-                                            </IconButton>
-                                            <IconButton aria-label="delete note" onClick={() => handleEdit(obj._id)} style={{ color: 'white' }}>
-                                                <EditIcon />
-                                            </IconButton>
-                                            <IconButton aria-label="delete note" onClick={() => handleDelete(obj._id)} style={{ color: 'white' }}>
-                                                <DeleteIcon />
-                                            </IconButton>
-                                        </CardActions>
-                                    </Card>
-                                </Grid>
+                                        </Box>
+                                    </CardContent>
+                                    <CardActions>
+                                        <IconButton aria-label="add to favorites" onClick={() => {
+                                            handleAddFav(obj._id);
+                                        }} style={{ color: isFav ? '#DB6F6F' : 'white' }}>
+                                            <FavoriteIcon />
+                                        </IconButton>
+                                        <IconButton aria-label="delete note" onClick={() => handleEdit(obj._id)} style={{ color: 'white' }}>
+                                            <EditIcon />
+                                        </IconButton>
+                                        <IconButton aria-label="delete note" onClick={() => handleClickOpen(obj._id)} style={{ color: 'white' }}>
+                                            <DeleteIcon />
+                                        </IconButton>
+                                        { obj._id === dialogId && <Dialog
+                                            open={open}
+                                            onClose={handleClose}
+                                            aria-labelledby="alert-dialog-title"
+                                            aria-describedby="alert-dialog-description"
+                                        >
+                                            <DialogTitle id="alert-dialog-title">
+                                                {"Delete Note"}
+                                            </DialogTitle>
+                                            <DialogContent>
+                                                <DialogContentText id="alert-dialog-description">
+                                                    Are you sure you want to delete this note?
+                                                </DialogContentText>
+                                            </DialogContent>
+                                            <DialogActions>
+                                                <Button onClick={handleClose}>NO</Button>
+                                                <Button onClick={() => handleDelete(obj._id)} autoFocus>YES</Button>
+                                            </DialogActions>
+                                        </Dialog> }
+                                    </CardActions>
+                                </Card>
+                            </Grid>
                         );
                     })}
                 </Grid>
-            </InfiniteScroll> : <Box style={{ marginTop: 20 }}><h4>Loading...</h4></Box>}
+            </InfiniteScroll> : ( lenNotes ? <Box style={{ marginTop: 20 }}><h4>Loading...</h4></Box>:<Box style={{ marginTop: 20 }}><h4>You don't have any notes.</h4></Box>)}
         </div>
     )
 }

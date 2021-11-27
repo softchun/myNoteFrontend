@@ -29,7 +29,7 @@ function Index() {
                     <Box marginTop={1} fontSize={40} marginLeft={4}>
                         Write the notes with us.
                     </Box>
-                    <Box marginTop={5} marginLeft={-13}>
+                    <Box marginTop={5} marginLeft={-15}>
                     <Button variant="contained"  href="/login" style={{ minWidth: 130, maxWidth: 130, backgroundColor: '#303030', color: 'white' }}>
                         WRITE NOW
                     </Button>

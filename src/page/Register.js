@@ -112,10 +112,10 @@ function Register() {
                                 <Button type="submit" onClick={handleSubmit} style={{ backgroundColor: '#212529', color: 'white', width: 100, height: 35 }}>
                                     Submit
                                 </Button>
-                                <Box margin={1}>
-                                    Already have an account?
-                                    <Link href="/login" underline="hover"> Login</Link>
-                                </Box>
+                                <Grid container direction="row" justifyContent="center" marginTop={2}>
+                                    <Box>Already have an account?&nbsp;</Box>
+                                    <Link href="/login" underline="hover">Login</Link>
+                                </Grid>
                             </Box>
                         </Box>
                     </Card>

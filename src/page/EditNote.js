@@ -88,7 +88,7 @@ function EditNote() {
                     alert(res.data.message);
                     return;
                 }
-                navigate('/mynote');
+                navigate(-1);
             })
             .catch(err => {
                 console.log(err);
@@ -98,7 +98,7 @@ function EditNote() {
     function handleBack(e) {
         e.preventDefault();
 
-        navigate('/mynote');
+        navigate(-1);
     }
 
     return (

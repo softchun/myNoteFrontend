@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Grid, Card, CardContent, CardActions, Box, IconButton, Button, Link } from '@mui/material';
+import { Grid, Card, CardContent, CardActions, Box, IconButton, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -43,12 +43,6 @@ function ViewNote() {
         FetchProduct()
 
     }, [id]);
-
-    function handleBack(e) {
-        e.preventDefault();
-
-        navigate('/mynote');
-    }
 
     function handleDelete(id) {
 
@@ -102,6 +96,18 @@ function ViewNote() {
         return text.split('\n').map((str, i) => <Box key={props.id.concat(`${i}`)}>{str}</Box>);
     }
 
+    const [open, setOpen] = useState(false);
+    const [dialogId, setDialogId] = useState('xxx');
+
+    function handleClickOpen(id) {
+        setOpen(true);
+        setDialogId(id)
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
     return (
         <div bgcolor='#212529'>
             <NavBar />
@@ -121,7 +127,7 @@ function ViewNote() {
                                 <Box className="box-content-view" fontSize={40} fontWeight={700} marginTop={2} >
                                     {data.title}
                                 </Box>
-                                <Box  sx={{ fontSize: 18, marginTop: 2, marginBottom: 4 }}>
+                                <Box sx={{ fontSize: 18, marginTop: 2, marginBottom: 4 }}>
                                     writed by {data.username}
                                 </Box>
                                 <Box>
@@ -143,16 +149,35 @@ function ViewNote() {
                                     handleAddFav(data._id);
                                 }} style={{ color: data.fav ? '#DB6F6F' : 'white' }}>
                                     <FavoriteIcon />
-                                    { data.fav ? <Box sx={{ fontSize: 20 }}>&nbsp;Remove favorites</Box> : <Box sx={{ fontSize: 20 }}>&nbsp;Add to favorites</Box> }
+                                    {data.fav ? <Box sx={{ fontSize: 20 }}>&nbsp;Remove favorites</Box> : <Box sx={{ fontSize: 20 }}>&nbsp;Add to favorites</Box>}
                                 </IconButton><br />
-                                { (data.username === data.note_username) && <><IconButton aria-label="delete note" onClick={() => handleEdit(data._id)} style={{ color: 'white' }}>
+                                {(data.username === data.note_username) && <><IconButton aria-label="delete note" onClick={() => handleEdit(data._id)} style={{ color: 'white' }}>
                                     <EditIcon />
                                     <Box sx={{ fontSize: 20 }}>&nbsp;Edit Note</Box>
                                 </IconButton>
-                                <IconButton aria-label="delete note" onClick={() => handleDelete(data._id)} style={{ color: 'white' }}>
-                                    <DeleteIcon />
-                                    <Box sx={{ fontSize: 20 }}>&nbsp;Delete Note</Box>
-                                </IconButton></> }
+                                    <IconButton aria-label="delete note" onClick={() => handleClickOpen(data._id)} style={{ color: 'white' }}>
+                                        <DeleteIcon />
+                                        <Box sx={{ fontSize: 20 }}>&nbsp;Delete Note</Box>
+                                    </IconButton>
+                                    {data._id === dialogId && <Dialog
+                                        open={open}
+                                        onClose={handleClose}
+                                        aria-labelledby="alert-dialog-title"
+                                        aria-describedby="alert-dialog-description"
+                                    >
+                                        <DialogTitle id="alert-dialog-title">
+                                            {"Delete Note"}
+                                        </DialogTitle>
+                                        <DialogContent>
+                                            <DialogContentText id="alert-dialog-description">
+                                                Are you sure you want to delete this note?
+                                            </DialogContentText>
+                                        </DialogContent>
+                                        <DialogActions>
+                                            <Button onClick={handleClose}>NO</Button>
+                                            <Button onClick={() => handleDelete(data._id)} autoFocus>YES</Button>
+                                        </DialogActions>
+                                    </Dialog>}</>}
                             </CardActions>
                         </Box>
                     </Card>

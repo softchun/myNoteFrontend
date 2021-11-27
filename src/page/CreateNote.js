@@ -70,7 +70,7 @@ function CreateNote() {
     function handleBack(e) {
         e.preventDefault();
 
-        navigate('/mynote');
+        navigate(-1);
     }
 
     return (

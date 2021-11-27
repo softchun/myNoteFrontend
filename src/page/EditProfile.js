@@ -84,7 +84,7 @@ function EditProfile() {
     function handleBack(e) {
         e.preventDefault();
 
-        navigate('/home');
+        navigate(-1);
     }
 
     return (
@@ -110,7 +110,7 @@ function EditProfile() {
                                 </Box>
                                 <TextField
                                     required
-                                    id="outlined-required"
+                                    id="outlined-required-username"
                                     label="Username"
                                     name="username"
                                     value={data.username}
@@ -123,7 +123,7 @@ function EditProfile() {
                                 </Box>
                                 <TextField
                                     disabled
-                                    id="outlined-required"
+                                    id="outlined-required-email"
                                     label="Email"
                                     name="email"
                                     value={data.email}
@@ -152,7 +152,7 @@ function EditProfile() {
                                 marginTop={2}
                             >
                                 <Grid item>
-                                    <Button type="submit" onClick={handleBack} style={{ backgroundColor: '#212529', color: 'white', width: 100, height: 35 }}>
+                                    <Button onClick={handleBack} style={{ backgroundColor: '#212529', color: 'white', width: 100, height: 35 }}>
                                         Back
                                     </Button>
                                 </Grid>

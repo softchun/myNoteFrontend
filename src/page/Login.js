@@ -97,10 +97,10 @@ function Login() {
                         <Button type="submit" onClick={handleSubmit} style={{ backgroundColor: '#212529', color: 'white', width: 100, height: 35 }}>
                             Submit
                         </Button>
-                        <Box margin={1}>
-                            Don't have an account?
+                        <Grid container direction="row" justifyContent="center" marginTop={2}>
+                            Don't have an account?&nbsp;
                             <Link href="/register" underline="hover"> Create</Link>
-                        </Box>
+                        </Grid>
                     </Box>
                 </Box>
             </Card>

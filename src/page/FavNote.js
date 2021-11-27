@@ -14,7 +14,7 @@ function FavNote() {
     const navigate = useNavigate();
 
     const [notes, setNotes] = useState();
-    const [lenNotes, setLenNotes] = useState(0);
+    const [lenNotes, setLenNotes] = useState(1);
 
     const numPerLoad = 6;
     const [count, setCount] = useState(numPerLoad);
@@ -42,7 +42,7 @@ function FavNote() {
                 ).then(
                     setState({
                         items: response.data.slice(0, Math.min(numPerLoad, response.data.length)),
-                        hasMore: true
+                        hasMore: (response.data.length > numPerLoad)
                     })
                 )
             });
@@ -85,10 +85,6 @@ function FavNote() {
                 window.location.reload(false);
             });
     }
-    
-    function handleView(id) {
-        navigate(`/viewnote/${id}`);
-    }
 
     function NewlineText(props) {
         const text = props.text;
@@ -103,11 +99,11 @@ function FavNote() {
                     My Favorite Notes
                 </Box>
             </Grid>
-            {state.items ? <InfiniteScroll
+            {state.items && lenNotes ? <InfiniteScroll
                 dataLength={state.items.length}
                 next={fetchMoreData}
                 hasMore={state.hasMore}
-                loader={<Box>Loading...</Box>}
+                loader={<Box style={{ marginTop: 20 }}><h4>Loading...</h4></Box>}
                 endMessage={
                     <Box style={{ textAlign: "center", margin: 40 }}>
                         <h4>You have seen all notes.</h4>
@@ -115,7 +111,7 @@ function FavNote() {
                 }
             >
                 <Grid container marginLeft={0} marginRight={5} justifyContent='center' flex-wrap='wrap'>
-                    {notes && notes.map((obj) => {
+                    {state.items && state.items.map((obj) => {
 
                         const color = obj.color;
 
@@ -124,7 +120,7 @@ function FavNote() {
                                 <Card sx={{ width: 310, backgroundColor: color, color: 'white' }}>
                                     <CardContent>
                                         <Box sx={{ fontSize: 24, fontWeight: 700 }}>
-                                        <a target="_blank" className="box-view" title='View Note' onClick={() => handleView(obj._id)}>{obj.title}</a>
+                                        <a href={`/viewnote/${obj._id}`} className="box-view" title='View Note'>{obj.title}</a>
                                         </Box>
                                         <Box sx={{ mb: 1.5 }}>
                                             writed by {obj.username}
@@ -152,7 +148,7 @@ function FavNote() {
                         );
                     })}
                 </Grid>
-            </InfiniteScroll> : <Box style={{ marginTop: 20 }}><h4>Loading...</h4></Box>}
+            </InfiniteScroll> : ( lenNotes ? <Box style={{ marginTop: 20 }}><h4>Loading...</h4></Box>:<Box style={{ marginTop: 20 }}><h4>You don't have any favorite notes.</h4></Box>)}
         </div>
     )
 }

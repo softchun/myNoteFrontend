@@ -70,6 +70,11 @@ function Home() {
 
     function handleAddFav(id) {
 
+        setState({
+            ...state,
+            items: state.items.map(el => (el._id === id ? { ...el, fav: !el.fav } : el))
+        });
+
         axios.post(`${baseURL}/note/addfav`,
             {
                 _id: id
@@ -84,11 +89,13 @@ function Home() {
                     localStorage.removeItem("token");
                     navigate('/login');
                 }
+            })
+            .catch((error) => {
                 setState({
                     ...state,
                     items: state.items.map(el => (el._id === id ? { ...el, fav: !el.fav } : el))
                 });
-            });
+            })
 
     }
 
@@ -127,14 +134,14 @@ function Home() {
                                 <Card sx={{ width: 310, backgroundColor: color, color: 'white' }}>
                                     <CardContent>
                                         <Box sx={{ fontSize: 24, fontWeight: 700 }}>
-                                        <a href={`/viewnote/${obj._id}`} className="box-view" title='View Note'>{obj.title}</a>
+                                            <a href={`/viewnote/${obj._id}`} className="box-view" title='View Note'>{obj.title}</a>
                                         </Box>
                                         <Box sx={{ mb: 1.5 }}>
                                             writed by {obj.username}
                                         </Box>
                                         <Box>
                                             <Box className="box-content" sx={{ fontSize: 18, fontWeight: 700 }} marginTop={3} marginBottom={3}>
-                                                <NewlineText text={obj.content}  id={obj._id.concat("home_newline")}/>
+                                                <NewlineText text={obj.content} id={obj._id.concat("home_newline")} />
                                             </Box>
                                         </Box>
                                         <Box marginTop={2} marginBottom={-2}>
@@ -155,7 +162,7 @@ function Home() {
                         );
                     })}
                 </Grid>
-            </InfiniteScroll> :( lenNotes ? <Box style={{ marginTop: 20 }}><h4>Loading...</h4></Box>:<Box style={{ marginTop: 20 }}><h4>We don't have any notes.</h4></Box>)}
+            </InfiniteScroll> : (lenNotes ? <Box style={{ marginTop: 20 }}><h4>Loading...</h4></Box> : <Box style={{ marginTop: 20 }}><h4>We don't have any notes.</h4></Box>)}
         </div>
     )
 }

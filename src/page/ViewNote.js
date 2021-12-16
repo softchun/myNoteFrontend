@@ -66,6 +66,11 @@ function ViewNote() {
 
     function handleAddFav(id) {
 
+        setData({
+            ...data,
+            fav: !data.fav
+        });
+
         axios.post(`${baseURL}/note/addfav`,
             {
                 _id: id
@@ -80,11 +85,14 @@ function ViewNote() {
                     localStorage.removeItem("token");
                     navigate('/login');
                 }
+                
+            })
+            .catch((error) => {
                 setData({
                     ...data,
                     fav: !data.fav
                 });
-            });
+            })
     }
 
     function handleEdit(id) {
@@ -174,8 +182,8 @@ function ViewNote() {
                                             </DialogContentText>
                                         </DialogContent>
                                         <DialogActions>
-                                            <Button onClick={handleClose}>NO</Button>
                                             <Button onClick={() => handleDelete(data._id)} autoFocus>YES</Button>
+                                            <Button onClick={handleClose}>NO</Button>
                                         </DialogActions>
                                     </Dialog>}</>}
                             </CardActions>

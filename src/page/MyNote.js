@@ -91,6 +91,11 @@ function MyNote() {
 
     function handleAddFav(id) {
 
+        setState({
+            ...state,
+            items: state.items.map(el => (el._id === id ? { ...el, fav: !el.fav } : el))
+        });
+
         axios.post(`${baseURL}/note/addfav`,
             {
                 _id: id
@@ -105,11 +110,13 @@ function MyNote() {
                     localStorage.removeItem("token");
                     navigate('/login');
                 }
+            })
+            .catch((error) => {
                 setState({
                     ...state,
                     items: state.items.map(el => (el._id === id ? { ...el, fav: !el.fav } : el))
                 });
-            });
+            })
     }
 
     function handleEdit(id) {
@@ -206,8 +213,8 @@ function MyNote() {
                                                 </DialogContentText>
                                             </DialogContent>
                                             <DialogActions>
-                                                <Button onClick={handleClose}>NO</Button>
                                                 <Button onClick={() => handleDelete(obj._id)} autoFocus>YES</Button>
+                                                <Button onClick={handleClose}>NO</Button>
                                             </DialogActions>
                                         </Dialog> }
                                     </CardActions>

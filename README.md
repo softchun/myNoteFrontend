@@ -1,7 +1,7 @@
 # myNoteFrontend
 
 ## Demo
-https://tranquil-escarpment-43769.herokuapp.com/
+https://my-note-00.netlify.app/
 
 # Getting Started with Create React App
 

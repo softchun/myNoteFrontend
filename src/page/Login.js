@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { Grid, Button, Card, Box, TextField, Link } from '@mui/material';
 
-const baseURL = process.env.BACKEND_URL;
+const baseURL = process.env.REACT_APP_BACKEND_URL;
 
 function Login() {
 

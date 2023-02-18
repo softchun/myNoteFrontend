@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Container, Navbar, Nav, NavDropdown } from 'react-bootstrap';
 
-const baseURL = "https://my-note-backend.herokuapp.com";
+const baseURL = process.env.REACT_APP_BACKEND_URL;
 
 function NavBar() {
 

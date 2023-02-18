@@ -5,7 +5,7 @@ import { Grid, Button, Card, Box, TextField, FormControl, FormControlLabel, Radi
 
 import NavBar from '../component/Navbar';
 
-const baseURL = "https://my-note-backend.herokuapp.com";
+const baseURL = process.env.REACT_APP_BACKEND_URL;
 
 function EditNote() {
 
